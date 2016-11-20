@@ -1,19 +1,19 @@
-#include <LPC11xx.H>
+#include "LPC11xx.H"
+#include "led.h"
 
-void delay(){      // subroutine
-	long int i;
-	for(i=500000;i>0;i--){
-	}
-}
+#define LED_pin 8 //set LED_pin
+#define LED_on  LPC_GPIO1->DATA &=~(1<<LED_pin); //open(set) LED
+#define LED_off LPC_GPIO1->DATA |=(1<<LED_pin);  //close(clear) LED
+
+
 int main(void){
 		
-		LPC_GPIO1->DIR=0xffff;
-	  LPC_GPIO1->DATA=0xffff;
+	led_init();  //use led
 	
 	while(1){
-		LPC_GPIO1->DATA&=~(1<<8);
-		delay();
-		LPC_GPIO1->DATA|=(1<<8);
-		delay();
+		LED_on;			 // open LED
+		led_delay(); // delay open 0.5sec
+		LED_off;		 //	close LED
+		led_delay(); // delay close 0.5sec
 	}
 }
